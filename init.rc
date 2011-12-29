@@ -19,6 +19,9 @@ on init
     mkdir /cache
     mkdir /sbl1
     mkdir /sbl2
+    mkdir /emmc
+    mkdir /sd-ext
+    mkdir /datadata
 
     mount /tmp /tmp tmpfs
     mkdir /mnt/sdcard 0000 system system 
@@ -29,10 +32,10 @@ on early-fs
 
 on fs
     mount ext4 /dev/block/mmcblk0p9 /system
-    mount emmc /dev/block/mmcblk0p2 /sbl1
-    mount emmc /dev/block/mmcblk0p3 /sbl2
+#    mount emmc /dev/block/mmcblk0p2 /sbl1
+#    mount emmc /dev/block/mmcblk0p3 /sbl2
 
-    mount vfat /dev/block/mmcblk1p1 /sdcard
+#    mount vfat /dev/block/mmcblk1p1 /sdcard
 	
 on boot
 
@@ -46,13 +49,13 @@ service ueventd /sbin/ueventd
     critical
 
 
-service console_eng /system/bin/sh
+service console_eng /sbin/busybox sh
     class core
     console
     disabled
     group log
 
-service console_user /system/bin/sh
+service console_user /sbin/busybox sh
     class core
     console
     disabled
@@ -68,7 +71,7 @@ on property:ro.debuggable=0
 #service console /system/bin/busybox ash
 #    console
 
-service console /system/bin/sh
+service console /sbin/busybox sh
     console
 
 service recovery /sbin/recovery
